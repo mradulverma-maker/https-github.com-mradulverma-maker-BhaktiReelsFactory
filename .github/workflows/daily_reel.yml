@@ -31,9 +31,14 @@ jobs:
       - name: Run Automation
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
           YOUTUBE_URL: ${{ github.event.inputs.video_url || 'https://www.youtube.com/@PremanandJiMaharaj/videos' }}
           GITHUB_ACTIONS: "true"
-        run: python main.py
+        run: |
+          if [ -n "$YOUTUBE_COOKIES" ]; then
+            echo "$YOUTUBE_COOKIES" > cookies.txt
+          fi
+          python main.py
 
       - name: Upload Finished Reels
         uses: actions/upload-artifact@v4

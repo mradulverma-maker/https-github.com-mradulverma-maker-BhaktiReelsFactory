@@ -22,6 +22,11 @@ def download_video(url, output_filename="input_video.mp4"):
         'merge_output_format': 'mp4',
         'playlist_items': '1', # Ensure only the latest is grabbed if it's a channel link
     }
+    
+    if os.path.exists("cookies.txt"):
+        logging.info("Using cookies.txt for authentication...")
+        ydl_opts['cookiefile'] = 'cookies.txt'
+        
     try:
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
