@@ -28,8 +28,11 @@ jobs:
           path: ~/.cache/huggingface
           key: hf-models-${{ runner.os }}
 
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install FFmpeg and JS Runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          # Node.js is usually pre-installed on ubuntu-latest, but yt-dlp needs it for some extractions.
 
       - name: Install Dependencies
         run: |
