@@ -1,0 +1,43 @@
+name: Bhakti Reels Factory
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: 'Paste YouTube Link Here'
+        required: true
+        type: string
+  schedule:
+    - cron: '0 6 * * *' # Runs at 6:00 AM daily
+
+jobs:
+  build_reels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install Dependencies
+        run: |
+          pip install yt-dlp faster-whisper moviepy google-generativeai requests
+
+      - name: Run Automation
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          YOUTUBE_URL: ${{ github.event.inputs.video_url || 'https://www.youtube.com/@PremanandJiMaharaj/videos' }}
+          GITHUB_ACTIONS: "true"
+        run: python main.py
+
+      - name: Upload Finished Reels
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bhakti-Reels-Package
+          path: output_clips/
+          retention-days: 1 # Deletes the zip after 24 hours to stay clean

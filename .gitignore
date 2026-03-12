@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+input_video.mp4
+transcript.txt
+transcript.vtt
+output_clips/
+upload_queue.json
+.env
+temp-audio-*
+*.m4a
+reel_*.mp4
+test_reel.mp4

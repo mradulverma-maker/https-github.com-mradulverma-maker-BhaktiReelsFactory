@@ -1,0 +1,5 @@
+yt-dlp
+faster-whisper
+moviepy
+google-generativeai
+requests
